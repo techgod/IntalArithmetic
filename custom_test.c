@@ -16,6 +16,7 @@ void ctests(int tno, char* result,char *expected)
     {
         printf("PASS.\n");
     }
+	free(result);
 }
 
 void itests(int tno, int result,int expected)
@@ -142,7 +143,48 @@ int main(int argc, char const *argv[]) {
     result1 = intal_diff("0", "0");
     ctests(5,result1,"0");
 
+	result1 = intal_diff("1", "1000");
+    ctests(6,result1,"999");
 
+	result1 = intal_diff("0", "1234567890123456789012345678901234567890");
+    ctests(7,result1,"1234567890123456789012345678901234567890");
+
+
+	printf("\n*********************\n");
+	printf("intal_multiply\nBase Test\n");
+    result1 = intal_multiply(a[8], a[5]);
+	if(!result1) {
+		printf("Test intal_multiply FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "65185851858518585185851852")) {
+			printf("Test intal_multiply PASSED\n");
+		} else {
+			printf("Test intal_multiply FAILED.\n.Your answer: %s\nExpected answer: %s\n", result1, "65185851858518585185851852");
+		}
+		free(result1);
+	}
+
+    printf("\nCustom Tests\n");
+    result1 = intal_multiply("12", "10");
+    ctests(1,result1,"120");
+
+    result1 = intal_multiply("0", "0");
+    ctests(2,result1,"0");
+
+    result1 = intal_multiply("0", "4567865478654787654789654367897654367897654367689876543678765");
+    ctests(3,result1,"0");
+
+    result1 = intal_multiply("12345", "45");
+    ctests(4,result1,"555525");
+
+    result1 = intal_multiply("731", "23");
+    ctests(5,result1,"16813");
+
+	result1 = intal_multiply("1", "9");
+    ctests(6,result1,"9");
+
+	result1 = intal_multiply("1001", "99");
+    ctests(7,result1,"99099");
 
 
 	// Don't forget to free all the memory that is dynamically allocated.

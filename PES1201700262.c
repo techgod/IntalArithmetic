@@ -9,14 +9,14 @@
 #define MAX_LEN 1001
 
 //Some helper functions
-static char* strrev(char *str)
+static void strrev(char *str,int len)
 {
     if (!str || ! *str)
     {
-        return str;
+        return;
     }
 
-    int i = strlen(str) - 1, j = 0;
+    int i = len - 1, j = 0;
 
     char ch;
     while (i > j)
@@ -27,63 +27,56 @@ static char* strrev(char *str)
         --i;
         ++j;
     }
-    return str;
-}
-
-static void strappend(char *input, char c)
-{
-    int n = strlen(input);
-    input = (char*) realloc(input,(strlen(input) + 2));
-    input[n]=c;
-    input[n+1]='\0';
-}
-
-static void remove_leading_zeros(char *dest,char *source)
-{
-    while(*(source)=='0')++source;
-    strcpy(dest,source);
 }
 
 //Start of Implementations 
-
 char* intal_add(const char* intal1, const char* intal2)
 {
-    char* intal_r = malloc(sizeof(char)*2);
+    char* intal_r = malloc(sizeof(char)*MAX_LEN);
+
     int i = strlen(intal1)-1;
     int j = strlen(intal2)-1;    
     int carry = 0;
 
+    int len=0;
+
     while(i>=0 && j>=0)
     {
         int sum = (intal1[i]-'0')+(intal2[j]-'0')+carry;
-        strappend(intal_r,(sum%10)+'0');
+        intal_r[len]=(sum%10)+'0';
         carry = sum/10;
         --i;
         --j;
+        ++len;
     }
 
     while(i>=0)
     {
         int sum = ((intal1[i]-'0')+carry); 
-        strappend(intal_r,(sum%10)+'0');
+        intal_r[len]=(sum%10)+'0';
         carry = sum/10; 
         --i;
+        ++len;
     }
 
     while(j>=0)
     {
         int sum = ((intal2[j]-'0')+carry); 
-        strappend(intal_r,(sum%10)+'0');
+        intal_r[len]=(sum%10)+'0';
         carry = sum/10; 
         --j;
+        ++len;
     }
 
     if(carry)
     {
-        strappend(intal_r,carry+'0');
+        //strappend(intal_r,carry+'0');
+        intal_r[len]=carry+'0';
+        ++len;
     }
 
-    intal_r = strrev(intal_r);
+    strrev(intal_r,len);
+    intal_r[len]='\0';
 
     return intal_r;
 }
@@ -118,12 +111,16 @@ int intal_compare(const char* intal1, const char* intal2)
     }
     return 0;
 }
+
+
 char* intal_diff(const char* intal1, const char* intal2)
 {
+   
     //use above strcmp
     int res = intal_compare(intal1,intal2);
 
-    char* intal_r = malloc(sizeof(char)*2);    
+    char* intal_r = malloc(sizeof(char)*MAX_LEN);    
+
     if(res==0)
     {
         intal_r[0]='0';
@@ -131,17 +128,16 @@ char* intal_diff(const char* intal1, const char* intal2)
         return intal_r;
     }
 
-    char *big,*small;
+    char *big = (char*) malloc(sizeof(char)*MAX_LEN);
+    char *small = (char*) malloc(sizeof(char)*MAX_LEN);
+
     int bsize;
     int ssize;
-
 
     if(res>0)
     {
         bsize = strlen(intal1);
         ssize = strlen(intal2);
-        big = (char*) malloc(sizeof(char)*(strlen(intal1)+1));
-        small = (char*) malloc(sizeof(char)*(strlen(intal2)+1));
         strcpy(big,intal1);
         strcpy(small,intal2);
     }
@@ -149,17 +145,14 @@ char* intal_diff(const char* intal1, const char* intal2)
     {
         bsize = strlen(intal2);
         ssize = strlen(intal1);
-        big = (char*) malloc(sizeof(char)*bsize);
-        small = (char*) malloc(sizeof(char)*ssize);
         strcpy(big,intal2);
         strcpy(small,intal1);
     }
 
-    intal_r = (char*) realloc(intal_r,sizeof(char)*bsize);
+    strrev(big,bsize);
+    strrev(small,ssize);
 
-    strrev(big);
-    strrev(small);
-
+    int len = 0;
     int carry = 0;
 
     for (int i=0; i<ssize; ++i) 
@@ -176,7 +169,8 @@ char* intal_diff(const char* intal1, const char* intal2)
         {
             carry = 0; 
         }
-        strappend(intal_r,sub+'0'); 
+        intal_r[len]=sub+'0';
+        ++len; 
     } 
 
     for (int i=ssize; i<bsize; ++i) 
@@ -193,25 +187,109 @@ char* intal_diff(const char* intal1, const char* intal2)
             carry = 0; 
         }
   
-        strappend(intal_r,sub+'0'); 
+        intal_r[len]=sub+'0';
+        ++len;
     }
 
-    strrev(intal_r); 
+    // there are some zeros which can be at the end (will go to beginning when reversed)
+    int nlen;
+    for(nlen=len;nlen>0;--nlen)
+    {
+        //nlen - 1 is last position
+        if(intal_r[nlen-1]!='0')
+        {
+            break;
+        }
+    }
 
-    char *intal_final = (char*) malloc(sizeof(char)*(strlen(intal_r)+1));
-
-    remove_leading_zeros(intal_final,intal_r);
-
-    free(intal_r);
+    intal_r[nlen]='\0';
+    //nlen is the length without the zeros
+    strrev(intal_r,nlen);
+     
     free(big);
     free(small);
 
-    return intal_final;
+    return intal_r;
+    
 }
+
 char* intal_multiply(const char* intal1, const char* intal2)
 {
-        return "a";
 
+        char* intal_r = malloc(sizeof(char)*MAX_LEN);    
+
+        //start with last digit of second element
+        int len1 = strlen(intal1);
+        int len2 = strlen(intal2);
+
+        if(intal1[0] == '0' || intal2[0] == '0')
+        {
+            intal_r[0]='0';
+            intal_r[1]='\0';
+            return intal_r;
+        }
+
+        int result[len1+len2];
+        memset(result,0,sizeof(result));
+
+        int ind1=0 ,ind2 = 0, r_lpos=0;
+
+        for(int i=len1-1;i>=0;--i)
+        {
+            //going through each digit of intal2 from right to left
+            int carry = 0;
+            int n1 = intal1[i]-'0';
+
+            ind2=0;
+
+            for(int j=len2-1;j>=0;--j)
+            {
+                //go left to right in intal1
+                int n2 = intal2[j]-'0';
+                int sum = n1*n2 + result[ind1+ind2] + carry;
+
+                carry = sum/10;
+
+                if((ind1+ind2)>r_lpos)
+                {
+                    r_lpos = ind1+ind2;
+                }
+                result[ind1 + ind2] = sum % 10;
+
+                ++ind2;
+            }
+
+            if(carry>0)
+            {
+                if((ind1+ind2)>r_lpos)
+                {
+                    r_lpos = ind1+ind2;
+                }
+                result[ind1+ind2] += carry;
+            }
+
+            ++ind1; 
+        }
+
+
+        while(r_lpos>=0)
+        {
+            if(result[r_lpos]!='0')
+            {
+                break;
+            }
+            --r_lpos;
+        }
+
+        intal_r[r_lpos+1]='\0';
+
+        for(int i=0;i<=r_lpos;++i)
+        {
+            intal_r[i]=result[r_lpos-i]+'0';
+        }       
+
+        return intal_r;
+        
 }
 char* intal_mod(const char* intal1, const char* intal2)
 {
