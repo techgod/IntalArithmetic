@@ -405,25 +405,123 @@ char* intal_bincoeff(unsigned int n, unsigned int k)
 
 int intal_max(char **arr, int n)
 {
-    return 0;
+    int pos = 0;
+    char *max_ele = malloc(sizeof(char)*MAX_LEN);
+
+    strcpy(max_ele,*(arr));
+
+    for(int i=1;i<n;++i)
+    {
+        if(intal_compare(*(arr+i),max_ele)>0)
+        {
+            strcpy(max_ele,*(arr+i));
+            pos = i;
+        }
+    }
+
+    free(max_ele);
+    return pos;
 }
+
 int intal_min(char **arr, int n)
 {
-    return 0;
+    int pos = 0;
+    char *min_ele = malloc(sizeof(char)*MAX_LEN);
+
+    strcpy(min_ele,*(arr));
+
+    for(int i=0;i<n;++i)
+    {
+        if(intal_compare(*(arr+i),min_ele)<0)
+        {
+            strcpy(min_ele,*(arr+i));
+            pos = i;
+        }
+    }
+
+    free(min_ele);
+    return pos;
 }
 
 
 int intal_search(char **arr, int n, const char* key)
 {
-    return 0;
+    int pos = -1;
+    
+    for(int i=0;i<n;++i)
+    {
+        if(intal_compare(*(arr+i),key)==0)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    return pos;
 }
+
 int intal_binsearch(char **arr, int n, const char* key)
 {
+    int l = 0, u=n-1;
+    while(l<=u)
+    {
+        int m = (l+u)/2;
+        int res = intal_compare(*(arr+m),key);
+        if(res==0)
+        {
+            return m;
+        }
+        if(res>0)
+        {
+            u = m-1;
+        }
+        else
+        {
+            l = m + 1;
+        }
+    }
     return 0;
 }
+
+static void swap(char** a, char** b) 
+{ 
+    char *t = *a; 
+    *a = *b; 
+    *b = t; 
+} 
+  
+static int partition(char **arr, int low, int high) 
+{ 
+    char* pivot = *(arr+high);
+    int i = (low - 1);
+  
+    for (int j = low; j <= high- 1; j++) 
+    { 
+        if(intal_compare(*(arr+j),pivot)<0) 
+        { 
+            ++i;
+            swap(arr+i, arr+j); 
+        } 
+    } 
+    swap(arr+i + 1, arr+high); 
+    return (i + 1); 
+} 
+  
+static void quickSort(char **arr, int low, int high) 
+{ 
+    if (low < high) 
+    { 
+        int pi = partition(arr, low, high); 
+        quickSort(arr, low, pi - 1); 
+        quickSort(arr, pi + 1, high); 
+    } 
+} 
+
 void intal_sort(char **arr, int n)
 {
+    quickSort(arr,0,n-1);
 }
+
 char* coin_row_problem(char **arr, int n)
 {
     return "a";

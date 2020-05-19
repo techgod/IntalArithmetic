@@ -319,6 +319,72 @@ int main(int argc, char const *argv[]) {
     ctests(6,result1,"15890700");
 
 
+	printf("\n*********************\n");
+	printf("intal_max\nBase Test\n");
+	index1 = intal_max(a, n);
+	if(10 == index1) {
+		printf("Test intal_max PASSED\n");
+	} else {
+		printf("Test intal_max FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 6);
+	}
+
+	printf("\nCustom Tests\n");
+	char* t1[] = {"10","2"};
+    index1 = intal_max(t1,2);
+    itests(1,index1,0);
+
+	char* t2[] = {"10","10"};
+    index1 = intal_max(t2,2);
+    itests(2,index1,0);
+
+	char* t3[] = {"1"};
+    index1 = intal_max(t3,1);
+    itests(3,index1,0);
+
+	char* t4[] = {"1","2","3","34","0","56","9"};
+    index1 = intal_max(t4,7);
+    itests(4,index1,5);
+
+
+
+	printf("\n*********************\n");
+	printf("intal_min\nBase Test\n");
+	index1 = intal_min(a, n);
+	if(2 == index1) {
+		printf("Test intal_min PASSED\n");
+	} else {
+		printf("Test intal_min FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 2);
+	}
+
+
+	printf("\n*********************\n");
+	printf("intal_search\nBase Test\n");
+	index1 = intal_search(a, n, a[7]);
+	if(6 == index1) {
+		printf("Test intal_search PASSED\n");
+	} else {
+		printf("Test intal_search FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 6);
+	}
+
+	printf("\n*********************\n");
+	printf("intal_sort\nBase Test\n");
+	intal_sort(a, n);
+	printf("\nTest intal_sort PASSED only if the following sequence of %d intals are sorted in nondecreasing order.\n", n);
+	for (int i = 0; i < n; i++) {
+		printf("%s\n", a[i]);
+	}
+	printf("\n");	
+
+	printf("\n*********************\n");
+	printf("intal_binsearch\nBase Test\n");
+
+	index1 = intal_binsearch(a, n, "3");
+	if(1 == index1) {
+		printf("Test intal_binsearch and probably intal_sort PASSED\n");
+	} else {
+		printf("Test intal_binsearch and probably intal_sort FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 1);
+	}
+
 	// Don't forget to free all the memory that is dynamically allocated.
 	for(int i = 0; i < n; i++) {
 		free(a[i]);
