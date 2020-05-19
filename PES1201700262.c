@@ -70,7 +70,6 @@ char* intal_add(const char* intal1, const char* intal2)
 
     if(carry)
     {
-        //strappend(intal_r,carry+'0');
         intal_r[len]=carry+'0';
         ++len;
     }
@@ -115,10 +114,7 @@ int intal_compare(const char* intal1, const char* intal2)
 
 char* intal_diff(const char* intal1, const char* intal2)
 {
-   
-    //use above strcmp
     int res = intal_compare(intal1,intal2);
-
     char* intal_r = malloc(sizeof(char)*MAX_LEN);    
 
     if(res==0)
@@ -294,20 +290,89 @@ char* intal_multiply(const char* intal1, const char* intal2)
 
 char* intal_mod(const char* intal1, const char* intal2)
 {
+    char* ans = malloc(sizeof(char)*MAX_LEN);
+    char* prev = malloc(sizeof(char)*MAX_LEN);
+    char* f = malloc(sizeof(char)*MAX_LEN);
 
-    return "a";
+    strcpy(ans,intal1);
+
+    while(intal_compare(ans,intal2)>0)
+    {
+        strcpy(prev,"1");
+        strcpy(f,intal2);
+
+        char* temp;
+        while(intal_compare(ans,f)>0)
+        {
+            strcpy(prev,f);
+            temp = intal_multiply(f,"2");
+            strcpy(f,temp);
+            free(temp);
+        }
+
+        temp = intal_diff(ans,prev);
+        strcpy(ans,temp);
+        free(temp);
+    }
+    
+    if(intal_compare(ans,intal2)==0)
+    {
+        strcpy(ans,"0");
+    }
+
+    free(prev);
+    free(f);
+
+    return ans;
 }
 
 char* intal_pow(const char* intal1, unsigned int n)
 {
+    char* ans;
 
-        return "a";
+    if(intal_compare(intal1,"0")==0) //0
+    {
+        ans = malloc(sizeof(char)*MAX_LEN);
+        strcpy(ans,"0");
+        return ans;
+    }
+
+    if(n==0)
+    {
+        ans = malloc(sizeof(char)*MAX_LEN);
+        strcpy(ans,"1");
+        return ans;
+    }
+    char* temp = intal_pow(intal1,n/2);
+
+    if ((n%2)==0)
+    {
+        ans = intal_multiply(temp,temp);
+    }
+    else
+    {
+        char *m1 = intal_multiply(temp,temp);
+        ans = intal_multiply(m1,intal1);
+        free(m1);
+    }
+
+    free(temp);
+    return ans;
 }
 
 char* intal_gcd(const char* intal1, const char* intal2)
 {
-        return "a";
-}
+    if(intal_compare(intal1,"0")==0)
+    {
+        char* ans = malloc(sizeof(char)*MAX_LEN);
+        strcpy(ans,intal2);
+        return ans;
+    } 
+    char *mod_res = intal_mod(intal2,intal1);
+
+    char *res = intal_gcd(mod_res, intal1);
+    return res; 
+} 
 
 char* intal_fibonacci(unsigned int n)
 {
@@ -379,15 +444,12 @@ char* intal_bincoeff(unsigned int n, unsigned int k)
         c[i]=malloc(sizeof(char)*MAX_LEN);
         strcpy(c[i],"0");
     }
-    //memset(C, "0", sizeof(C)); 
   
     c[0]=malloc(sizeof(char)*MAX_LEN);
-    strcpy(c[0],"1"); // nC0 is 1 
+    strcpy(c[0],"1");
   
     for (int i = 1; i <= n; i++) 
     { 
-        // Compute next row of pascal triangle using 
-        // the previous row 
         for (int j = i<k?i:k; j > 0; --j)
         {
             c[j] = intal_add(c[j],c[j-1]); 
@@ -524,6 +586,36 @@ void intal_sort(char **arr, int n)
 
 char* coin_row_problem(char **arr, int n)
 {
-    return "a";
+    char *g = malloc(sizeof(char)*MAX_LEN);
+    char *f = malloc(sizeof(char)*MAX_LEN);
+    char *temp = malloc(sizeof(char)*MAX_LEN);
+
+    strcpy(g,"0");
+    strcpy(f,*arr);
+
+    for(int pos = 2; pos <= n; ++pos)
+    {
+        char *add_res = intal_add(*(arr+pos-1),g);
+
+        int comp = intal_compare(add_res,f);
+        
+        if(comp>0)
+        {
+            strcpy(temp,add_res);
+        }
+        else
+        {
+            strcpy(temp,f);
+        }
+
+        strcpy(g,f);
+        strcpy(f,temp);
+
+        free(add_res);
+    }
+    
+    free(temp);
+    free(g);
+    return f;
 }
 

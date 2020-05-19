@@ -3,6 +3,7 @@
 #include <string.h>
 #include "intal.h"
 
+int pcount,fcount;
 
 // make tests to check if carry 
 void ctests(int tno, char* result,char *expected)
@@ -11,10 +12,12 @@ void ctests(int tno, char* result,char *expected)
     if(!result || 0 != strcmp(result, expected)) {
 		printf("FAILED.\n");
         printf("Your Answer: %s\nExpected Answer: %s\n",result,expected);
+		++fcount;
 	}
     else
     {
         printf("PASS.\n");
+		++pcount;
     }
 	free(result);
 }
@@ -25,10 +28,12 @@ void itests(int tno, int result,int expected)
     if(result != expected) {
 		printf("FAILED.\n");
         printf("Your Answer: %d\nExpected Answer: %d\n",result,expected);
+		++fcount;
 	}
     else
     {
         printf("PASS.\n");
+		++pcount;
     }
 }
 
@@ -186,6 +191,168 @@ int main(int argc, char const *argv[]) {
 	result1 = intal_multiply("1001", "99");
     ctests(7,result1,"99099");
 
+
+
+	printf("\n*********************\n");
+	printf("intal_mod\nBase Tests\n");
+
+	result1 = intal_mod(a[3], a[4]);
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "1")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1");
+		}
+		free(result1);
+	}
+
+
+	result1 = intal_mod("978", "5");
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "3")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+		}
+		free(result1);
+	}
+
+	result1 = intal_mod(a[0], a[5]);
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "9")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "9");
+		}
+		free(result1);
+	}
+
+
+ 	printf("\nCustom Tests\n");
+    result1 = intal_mod("12", "10");
+    ctests(1,result1,"2");
+
+	result1 = intal_mod("12", "12");
+    ctests(2,result1,"0");
+
+	result1 = intal_mod("13", "12");
+    ctests(3,result1,"1");
+
+	result1 = intal_mod("100000000000000000000000000", "10");
+    ctests(4,result1,"0");
+
+	result1 = intal_mod("1234567898765432", "23345676543543456");
+    ctests(5,result1,"1234567898765432");
+
+
+
+	printf("\n*********************\n");
+	printf("intal_pow\nBase Tests\n");
+
+	result1 = intal_pow(a[5], 3);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "1728")) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1728");
+		}
+		free(result1);
+	}
+
+	result1 = intal_pow("10", 999);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[10])) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[10]);
+		}
+		free(result1);
+	}
+
+	result1 = intal_pow("2", 3000);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[11])) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[11]);
+		}
+		free(result1);
+	}
+
+	printf("\nCustom Tests\n");
+    result1 = intal_pow("12",2);
+    ctests(1,result1,"144");
+
+	result1 = intal_pow("0", 0);
+    ctests(2,result1,"0");
+
+	result1 = intal_pow("13", 1);
+    ctests(3,result1,"13");
+
+	result1 = intal_pow("354678987654356781", 0);
+    ctests(4,result1,"1");
+
+	result1 = intal_pow("1", 1);
+    ctests(5,result1,"1");
+
+	result1 = intal_pow("1", 14567);
+    ctests(6,result1,"1");
+
+	result1 = intal_pow("678", 4);
+    ctests(7,result1,"211309379856");
+	
+	printf("\n*********************\n");
+	printf("intal_gcd\nBase Tests\n");
+
+	result1 = intal_gcd(a[0], a[5]);
+	if(!result1) {
+		printf("Test intal_gcd FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "3")) {
+			printf("Test intal_gcd PASSED\n");
+		} else {
+			printf("Test intal_gcd FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+		}
+		free(result1);
+	}
+
+	printf("\nCustom Tests\n");
+    result1 = intal_gcd("10","15");
+    ctests(1,result1,"5");
+
+	result1 = intal_gcd("35", "10");
+    ctests(2,result1,"5");
+
+	result1 = intal_gcd("31", "2");
+    ctests(3,result1,"1");
+
+	result1 = intal_gcd("1", "1");
+    ctests(4,result1,"1");
+
+	result1 = intal_gcd("1", "0");
+    ctests(5,result1,"1");
+
+	result1 = intal_gcd("0", "2");
+    ctests(6,result1,"2");
+
+	result1 = intal_gcd("24325364", "45364021");
+    ctests(7,result1,"1");
+
+	//may not be defined, but just incase.
+	result1 = intal_gcd("0", "0");
+    ctests(8,result1,"0");
 
 	printf("\n*********************\n");
 	printf("intal_fibonacci\nBase Tests\n");
@@ -367,6 +534,20 @@ int main(int argc, char const *argv[]) {
 	}
 
 	printf("\n*********************\n");
+	printf("intal_search\nBase Test\n");	
+	result1 = coin_row_problem(a, n);
+	if(!result1) {
+		printf("Test coin_row_problem FAILED.\n");
+	} else {
+		if(0 == strcmp("1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000265796081911012046846190578820987", result1)) {
+			printf("Test coin_row_problem PASSED\n");
+		} else {
+			printf("Test coin_row_problem FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000265796081911012046846190578820987");
+		}
+		free(result1);
+	}
+
+	printf("\n*********************\n");
 	printf("intal_sort\nBase Test\n");
 	intal_sort(a, n);
 	printf("\nTest intal_sort PASSED only if the following sequence of %d intals are sorted in nondecreasing order.\n", n);
@@ -390,5 +571,11 @@ int main(int argc, char const *argv[]) {
 		free(a[i]);
 	}
 	free(a);
+
+	printf("\n*********************\n");
+	printf("Final Result\n");
+	printf("Custom Tests\n");
+	printf("%d Passed, %d Failed.\n",pcount,fcount);
+
 	return 0;
 }
