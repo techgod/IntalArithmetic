@@ -291,33 +291,118 @@ char* intal_multiply(const char* intal1, const char* intal2)
         return intal_r;
         
 }
+
 char* intal_mod(const char* intal1, const char* intal2)
 {
-        return "a";
 
+    return "a";
 }
+
 char* intal_pow(const char* intal1, unsigned int n)
 {
-        return "a";
 
+        return "a";
 }
+
 char* intal_gcd(const char* intal1, const char* intal2)
 {
         return "a";
-
 }
+
 char* intal_fibonacci(unsigned int n)
 {
-    return "a";
+    char* a = malloc(sizeof(char)*MAX_LEN);    
+    char* b = malloc(sizeof(char)*MAX_LEN);    
+    char* c = malloc(sizeof(char)*MAX_LEN);    
+
+    strcpy(a,"0");
+    strcpy(b,"1");
+
+    unsigned int i; 
+
+    if(n == 0) 
+    {
+        free(b);
+        free(c);
+        return a; 
+    }
+
+    for (i = 2; i <= n; i++) 
+    { 
+        char *res = intal_add(a,b); 
+        strcpy(c,res);
+        free(res);
+
+        strcpy(a,b); 
+        strcpy(b,c); 
+    } 
+
+    free(a);
+    free(c);
+    return b; 
 }
+
 char* intal_factorial(unsigned int n)
 {
-    return "a";
+    char* pro = malloc(sizeof(char)*MAX_LEN);    
+
+    strcpy(pro,"1");
+
+    if(n==0 || n==1)
+    {
+        return pro;
+    }
+
+    for(unsigned int i=2;i<=n;++i)
+    {
+        char result[MAX_LEN];
+        sprintf(result, "%d", i); 
+
+        char *res = intal_multiply(pro,result);
+
+        strcpy(pro,res);
+        free(res);
+    }
+
+    return pro;
 }
+
+
 char* intal_bincoeff(unsigned int n, unsigned int k)
 {
-    return "a";
+    k = n-k<k?n-k:k;
+
+    char* c[k+1]; 
+    
+    for(int i=1;i<=k;++i)
+    {
+        c[i]=malloc(sizeof(char)*MAX_LEN);
+        strcpy(c[i],"0");
+    }
+    //memset(C, "0", sizeof(C)); 
+  
+    c[0]=malloc(sizeof(char)*MAX_LEN);
+    strcpy(c[0],"1"); // nC0 is 1 
+  
+    for (int i = 1; i <= n; i++) 
+    { 
+        // Compute next row of pascal triangle using 
+        // the previous row 
+        for (int j = i<k?i:k; j > 0; --j)
+        {
+            c[j] = intal_add(c[j],c[j-1]); 
+        } 
+    } 
+
+    for(int i=0;i<k;++i)
+    {
+        free(c[i]);
+    }
+
+    return c[k]; 
 }
+
+
 int intal_max(char **arr, int n)
 {
     return 0;
@@ -326,6 +411,8 @@ int intal_min(char **arr, int n)
 {
     return 0;
 }
+
+
 int intal_search(char **arr, int n, const char* key)
 {
     return 0;

@@ -187,6 +187,138 @@ int main(int argc, char const *argv[]) {
     ctests(7,result1,"99099");
 
 
+	printf("\n*********************\n");
+	printf("intal_fibonacci\nBase Tests\n");
+	result1 = intal_fibonacci(3);
+	if(!result1) {
+		printf("Test intal_fibonacci FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "2")) {
+			printf("Test intal_fibonacci PASSED\n");
+		} else {
+			printf("Test intal_fibonacci FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "2");
+		}
+		free(result1);
+	}
+
+	result1 = intal_fibonacci(1000);
+	if(!result1) {
+		printf("Test intal_fibonacci FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875")) {
+			printf("Test intal_fibonacci PASSED\n");
+		} else {
+			printf("Test intal_fibonacci FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875");
+		}
+		free(result1);
+	}
+
+	printf("\nCustom Tests\n");
+    result1 = intal_fibonacci(0);
+    ctests(1,result1,"0");
+
+    result1 = intal_fibonacci(1);
+    ctests(2,result1,"1");
+
+	result1 = intal_fibonacci(2);
+    ctests(3,result1,"1");
+
+	result1 = intal_fibonacci(250);
+    ctests(4,result1,"7896325826131730509282738943634332893686268675876375");
+
+	result1 = intal_fibonacci(43);
+    ctests(5,result1,"433494437");
+
+
+	printf("\n*********************\n");
+	printf("intal_factorial\nBase Tests\n");
+
+	result1 = intal_factorial(30);
+	if(!result1) {
+		printf("Test intal_factorial FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[6])) {
+			printf("Test intal_factorial PASSED\n");
+		} else {
+			printf("Test intal_factorial FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[6]);
+		}
+		free(result1);
+	}
+
+	result1 = intal_factorial(100);
+	if(!result1) {
+		printf("Test intal_factorial FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000")) {
+			printf("Test intal_factorial PASSED\n");
+		} else {
+			printf("Test intal_factorial FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000");
+		}
+		free(result1);
+	}
+
+	printf("\nCustom Tests\n");
+    result1 = intal_factorial(0);
+    ctests(1,result1,"1");
+
+    result1 = intal_factorial(1);
+    ctests(2,result1,"1");
+
+	result1 = intal_factorial(2);
+    ctests(3,result1,"2");
+
+	result1 = intal_factorial(12);
+    ctests(4,result1,"479001600");
+
+
+
+	printf("\n*********************\n");
+	printf("intal_bincoeff\nBase Tests\n");
+	result1 = intal_bincoeff(10, 8);
+	if(!result1) {
+		printf("Test intal_bincoeff FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "45")) {
+			printf("Test intal_bincoeff PASSED\n");
+		} else {
+			printf("Test intal_bincoeff FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "45");
+		}
+		free(result1);
+	}
+
+	result1 = intal_bincoeff(1000, 900);
+	if(!result1) {
+		printf("Test intal_bincoeff FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "63850511926305130236698511142022274281262900693853331776286816221524376994750901948920974351797699894319420811933446197797592213357065053890")) {
+			printf("Test intal_bincoeff PASSED\n");
+		} else {
+			printf("Test intal_bincoeff FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "63850511926305130236698511142022274281262900693853331776286816221524376994750901948920974351797699894319420811933446197797592213357065053890");
+		}
+		free(result1);
+	}
+
+
+	printf("\nCustom Tests\n");
+    result1 = intal_bincoeff(1000,1000);
+    ctests(1,result1,"1");
+
+    result1 = intal_bincoeff(1000,0);
+    ctests(2,result1,"1");
+
+	result1 = intal_bincoeff(0,0);
+    ctests(3,result1,"1");
+
+	result1 = intal_bincoeff(1,0);
+    ctests(4,result1,"1");
+
+	result1 = intal_bincoeff(10,1);
+    ctests(5,result1,"10");
+
+	result1 = intal_bincoeff(50,6);
+    ctests(6,result1,"15890700");
+
+
 	// Don't forget to free all the memory that is dynamically allocated.
 	for(int i = 0; i < n; i++) {
 		free(a[i]);
