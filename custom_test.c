@@ -37,10 +37,6 @@ void itests(int tno, int result,int expected)
     }
 }
 
-
-
-
-
 int main(int argc, char const *argv[]) {
 	int n = 12;
 	char **a = (char**) malloc(n * sizeof(char*));
@@ -62,7 +58,7 @@ int main(int argc, char const *argv[]) {
 	strcpy(a[11], "1230231922161117176931558813276752514640713895736833715766118029160058800614672948775360067838593459582429649254051804908512884180898236823585082482065348331234959350355845017413023320111360666922624728239756880416434478315693675013413090757208690376793296658810662941824493488451726505303712916005346747908623702673480919353936813105736620402352744776903840477883651100322409301983488363802930540482487909763484098253940728685132044408863734754271212592471778643949486688511721051561970432780747454823776808464180697103083861812184348565522740195796682622205511845512080552010310050255801589349645928001133745474220715013683413907542779063759833876101354235184245096670042160720629411581502371248008430447184842098610320580417992206662247328722122088513643683907670360209162653670641130936997002170500675501374723998766005827579300723253474890612250135171889174899079911291512399773872178519018229989376");
 	char *result1;
 	int index1;
-
+	
     //Intal Add Tests
     printf("\n*********************\n");
 	printf("intal_add\n\nBase Test\n");
@@ -96,7 +92,7 @@ int main(int argc, char const *argv[]) {
 
     result1 = intal_add("0", "0");
     ctests(6,result1,"0");
-    
+    	
     printf("\n*********************\n");
 	printf("intal_compare\nBase Test\n");
 
@@ -191,8 +187,6 @@ int main(int argc, char const *argv[]) {
 	result1 = intal_multiply("1001", "99");
     ctests(7,result1,"99099");
 
-
-
 	printf("\n*********************\n");
 	printf("intal_mod\nBase Tests\n");
 
@@ -249,7 +243,6 @@ int main(int argc, char const *argv[]) {
 
 	result1 = intal_mod("1234567898765432", "23345676543543456");
     ctests(5,result1,"1234567898765432");
-
 
 
 	printf("\n*********************\n");
@@ -313,6 +306,7 @@ int main(int argc, char const *argv[]) {
 	result1 = intal_pow("678", 4);
     ctests(7,result1,"211309379856");
 	
+
 	printf("\n*********************\n");
 	printf("intal_gcd\nBase Tests\n");
 
@@ -327,6 +321,7 @@ int main(int argc, char const *argv[]) {
 		}
 		free(result1);
 	}
+
 
 	printf("\nCustom Tests\n");
     result1 = intal_gcd("10","15");
@@ -438,7 +433,6 @@ int main(int argc, char const *argv[]) {
     ctests(4,result1,"479001600");
 
 
-
 	printf("\n*********************\n");
 	printf("intal_bincoeff\nBase Tests\n");
 	result1 = intal_bincoeff(10, 8);
@@ -513,7 +507,6 @@ int main(int argc, char const *argv[]) {
     itests(4,index1,5);
 
 
-
 	printf("\n*********************\n");
 	printf("intal_min\nBase Test\n");
 	index1 = intal_min(a, n);
@@ -523,6 +516,18 @@ int main(int argc, char const *argv[]) {
 		printf("Test intal_min FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 2);
 	}
 
+	printf("\nCustom Tests\n");
+    index1 = intal_min(t1,2);
+    itests(1,index1,1);
+
+    index1 = intal_min(t2,2);
+    itests(2,index1,0);
+
+    index1 = intal_min(t3,1);
+    itests(3,index1,0);
+
+    index1 = intal_min(t4,7);
+    itests(4,index1,4);
 
 	printf("\n*********************\n");
 	printf("intal_search\nBase Test\n");
@@ -533,8 +538,21 @@ int main(int argc, char const *argv[]) {
 		printf("Test intal_search FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 6);
 	}
 
+	printf("\nCustom Tests\n");
+    index1 = intal_search(t1,2,"2");
+    itests(1,index1,1);
+
+    index1 = intal_search(t2,2,"10");
+    itests(2,index1,0);
+
+    index1 = intal_search(t3,1,"76453225364734523");
+    itests(3,index1,-1);
+
+    index1 = intal_search(t4,7,"9");
+    itests(4,index1,6);
+
 	printf("\n*********************\n");
-	printf("intal_search\nBase Test\n");	
+	printf("intal_coin_row_problem\nBase Test\n");	
 	result1 = coin_row_problem(a, n);
 	if(!result1) {
 		printf("Test coin_row_problem FAILED.\n");
@@ -547,6 +565,27 @@ int main(int argc, char const *argv[]) {
 		free(result1);
 	}
 
+	printf("\nCustom Tests\n");
+	char* coin_t1[] = {"5", "22", "26", "10", "4", "8"};
+	char* coin_t2[] = {"5", "22", "26", "15", "4", "3", "11"};
+	char* coin_t3[] = {"5", "22", "26"};
+	char* coin_t4[] = {"5"};
+	char* coin_t5[] = {"10","10"};
+	char* coin_t6[] = {"12","10"};
+
+    result1 = coin_row_problem(coin_t1,6);
+    ctests(1,result1,"40");
+	result1 = coin_row_problem(coin_t2,7);
+    ctests(2,result1,"48");
+	result1 = coin_row_problem(coin_t3,3);
+    ctests(3,result1,"31");
+	result1 = coin_row_problem(coin_t4,1);
+    ctests(4,result1,"5");
+	result1 = coin_row_problem(coin_t5,2);
+    ctests(5,result1,"10");
+	result1 = coin_row_problem(coin_t6,2);
+    ctests(6,result1,"12");
+
 	printf("\n*********************\n");
 	printf("intal_sort\nBase Test\n");
 	intal_sort(a, n);
@@ -554,7 +593,36 @@ int main(int argc, char const *argv[]) {
 	for (int i = 0; i < n; i++) {
 		printf("%s\n", a[i]);
 	}
-	printf("\n");	
+	printf("\n");
+
+	printf("\nCustom Tests\n");
+	
+	//char* t1[] = {"10","2"};
+	//char* t2[] = {"10","10"};
+	//char* t3[] = {"1"};
+	//char* t4[] = {"1","2","3","34","0","56","9"};
+
+	intal_sort(t1, 2);
+	intal_sort(t2, 2);
+	intal_sort(t3, 1);
+	intal_sort(t4, 7);
+	
+	for (int i = 0; i <2; i++) {
+		printf("%s ", t1[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < 2; i++) {
+		printf("%s ", t2[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < 1; i++) {
+		printf("%s ", t3[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < 7; i++) {
+		printf("%s ", t4[i]);
+	}
+	printf("\n");
 
 	printf("\n*********************\n");
 	printf("intal_binsearch\nBase Test\n");
@@ -566,6 +634,20 @@ int main(int argc, char const *argv[]) {
 		printf("Test intal_binsearch and probably intal_sort FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 1);
 	}
 
+	printf("\nCustom Tests\n");
+
+	index1 = intal_binsearch(t1,2,"2");
+    itests(1,index1,0);
+
+    index1 = intal_binsearch(t2,2,"10");
+    itests(2,index1,0);
+
+    index1 = intal_binsearch(t3,1,"76453225364734523");
+    itests(3,index1,-1);
+
+    index1 = intal_binsearch(t4,7,"9");
+    itests(4,index1,4);
+
 	// Don't forget to free all the memory that is dynamically allocated.
 	for(int i = 0; i < n; i++) {
 		free(a[i]);
@@ -576,6 +658,5 @@ int main(int argc, char const *argv[]) {
 	printf("Final Result\n");
 	printf("Custom Tests\n");
 	printf("%d Passed, %d Failed.\n",pcount,fcount);
-
 	return 0;
 }

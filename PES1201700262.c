@@ -368,9 +368,11 @@ char* intal_gcd(const char* intal1, const char* intal2)
         strcpy(ans,intal2);
         return ans;
     } 
+    
     char *mod_res = intal_mod(intal2,intal1);
-
     char *res = intal_gcd(mod_res, intal1);
+
+    free(mod_res);
     return res; 
 } 
 
@@ -452,7 +454,9 @@ char* intal_bincoeff(unsigned int n, unsigned int k)
     { 
         for (int j = i<k?i:k; j > 0; --j)
         {
-            c[j] = intal_add(c[j],c[j-1]); 
+            char* res = intal_add(c[j],c[j-1]); 
+            strcpy(c[j],res);
+            free(res);
         } 
     } 
 
@@ -542,7 +546,7 @@ int intal_binsearch(char **arr, int n, const char* key)
             l = m + 1;
         }
     }
-    return 0;
+    return -1;
 }
 
 static void swap(char** a, char** b) 
@@ -613,7 +617,7 @@ char* coin_row_problem(char **arr, int n)
 
         free(add_res);
     }
-    
+
     free(temp);
     free(g);
     return f;
