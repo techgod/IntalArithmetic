@@ -1,0 +1,111 @@
+APSSSE Mini Project
+Yash Pradhan
+PES1201700262 - 5G
+
+Introduction
+
+Programming Languages various data types like Integers, Characters, Floats to deal with the various types of data. 
+In C, to deal with integer data, we use the primitive data types int, short and long. All of these have a size limit though!
+short value range: SHRT_MIN to SHRT_MAX : -32768 to +32767 (16-bit)
+int value range: INT_MIN to INT_MAX : -2147483648 to +2147483647 (32-bit)
+long value range: LONG_MIN to LONG_MAX : -9223372036854775808 to +9223372036854775807 (64-bit)
+But what if we wanted to store even larger integers? e.g 100, 1,000, 10,000 digit numbers? 
+The solution is to store the digits of the number in a user defined data structure, such as a string (character array). A string can be of arbitary length, 
+and each individual character can be convereted to integer to perform operations on it.
+
+For the purposes of this project, we have decided to deal with nonnegative integers with an upper limit of 1000 decimal digits. This is called an 'Intal' 
+(Intger of Arbitary Length). Intals are stored as a string of ASCII characters, ending with a null-character. 
+The most significant digit is stored at the beginning of the string.
+An example:
+Let's say the integer 654 is to be stored as an intal. Let's call this string str.
+Then,
+str[0]='6'
+str[1]='5'
+str[2]='4'
+str[3]='\0'
+
+We will use intals primarily for mathematical operation which involves very big integer calculations that are outside the limit of all available primitive data types.
+This can be especially useful in scientific calculations, and research.
+
+Approach
+
+char* intal_add(const char* intal1, const char* intal2)
+- Perform addition using grade school addition approach. Start from the Least Significant Digit, 
+and keep finding the sum of digits until we run out of digits in either of the strings. Add any resulting carry in each step.
+
+int intal_compare(const char* intal1, const char* intal2)
+- Compare the lengths of the two strings. The longer one is greater. 
+If the lengths are the same, then compare each digit one by one starting from the most significant digit.
+
+char* intal_diff(const char* intal1, const char* intal2);
+- Peform subtraction using the grade school approach. As absolute difference is to be found, we use the intal compare method to find the bigger intal.
+We reverse the strings and iterate through the digits one by one. We compute the difference, keeping track of the resulting carry in each step.
+The result we get is from the least significant to the most significant digit, so we need to reverse this. Before that though, we remove the trailing zeros for the string.
+This ensures when we do reverse it, we won't have any leading zeros.
+
+char* intal_multiply(const char* intal1, const char* intal2)
+- Here too we use the grade school approach towards multiplying the two intals. We multiply the least significant digit of the second intal with the entire first intal,
+and store this in a results array. The same results array is updated for each subsequent digit of the second intal.
+The answer is once again in reverse in the array, and so we remove any trailing zeros (which would have become leading zeros after reversing)
+
+char* intal_mod(const char* intal1, const char* intal2)
+- To find the mod, the approach that is being followed is using a sort of modified binary search. For intal1 mod intal2, we find a multiple of intal2 such that 
+intal2 is just smaller than intal1. We get the difference between the values, and we then repeat this process by again finding a new multiple of intal 2,
+until we get a difference of the multiple and intal lesser than intal2.
+The resulting value is the mod. 
+
+char* intal_pow(const char* intal1, unsigned int n)
+- We can follow a divide and conqueur approach and divide the problem at each step to get a O(log(n)) solution. 
+
+char* intal_gcd(const char* intal1, const char* intal2)
+- We use Euclid's algorithm to find the GCD of the two intals in the minimum possible time. We used the intal mod operation here.
+
+char* intal_fibonacci(unsigned int n)
+- A bottom up approach is taken for an iterative implentation to find the n'th number in the fibonacci series. Thi
+
+char* intal_factorial(unsigned int n)
+- An iterative implentation to find the factorial a number. A bottom up approach is taken here as well.
+
+char* intal_bincoeff(unsigned int n, unsigned int k)
+- Finding the binary coefficient for a pair of n and k. This is done by taking a bottom up approach and using dynamic programming. 
+One important optimization which is done here is to make use of the property that nCk = nCn-k. This means if n-k<k, it is faster to calculate nCn-k.
+
+int intal_max(char **arr, int n)
+- Iterate through the array of intals, saving the value and position of the max element thus far. After completion, the resulting max position is the answer.
+
+int intal_min(char **arr, int n)
+- Iterate through the array of intals, saving the value and position of the min element thus far. After completion, the resulting min position is the answer.
+
+int intal_search(char **arr, int n, const char* key)
+- Iterating through the array and attempting to find the element. If the element is found, return the position. 
+If the element is not found even after the iteration completes, return -1.
+
+int intal_binsearch(char **arr, int n, const char* key)
+- Exploiting the property that the input is ascending order, we can apply binary search on the array to find the position of the element in log(n) time.
+
+void intal_sort(char **arr, int n)
+- Performing in-place sort by using the Quick Sort Algorithm. The sorting takes place in O(nlogn) time on an average, 
+and a static paritioning and swap method is defined to help with the algorithm. 
+
+char* coin_row_problem(char **arr, int n)
+- The coin row program can be solved in a bottom up manner using dynamic programming. For the i'th coin, the maximum amount possible is the max of either
+taking the i'th coin + max value to get (i-2)th coin, or not take the i'th coin (thereby having the same value as the max value to get the i-1th coin) 
+
+
+Future Work
+
+This project has been really fun to implement, and although it already covers quite a lot of functions, there are some essentials which I feel must be added
+before this can be used as proper library.
+The idea is to make this atleast at par with something like the BigInteger Class in Java.
+- Division is one of the main operations which is missing 
+- Bit Operations are also not available right now. We can add stuff like,
+-- bit count, parity
+-- and, or, not
+-- left shift, right shift
+- Another important function which can be added is sqrt.
+
+If there were no restrictions, we would be dealing with truly arbitary length numbers, which can be signed.
+- As the memory for the numbers is allocated dynamically, there is no such upper value limit. 
+- Practically though as memory is limited you can store a number which has Integer.MAX_VALUE number of bits.
+- Dealing with signed numbers would need modification to a few algorithms, such as computing the power, difference.
+- We can store the sign at the most significant (left most) value.

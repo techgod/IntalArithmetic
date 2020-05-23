@@ -30,6 +30,8 @@ static void strrev(char *str,int len)
 }
 
 //Start of Implementations 
+
+// Adding two intals
 char* intal_add(const char* intal1, const char* intal2)
 {
     char* intal_r = malloc(sizeof(char)*MAX_LEN);
@@ -40,6 +42,7 @@ char* intal_add(const char* intal1, const char* intal2)
 
     int len=0;
 
+    // Summing the corresponding digits in both the intals
     while(i>=0 && j>=0)
     {
         int sum = (intal1[i]-'0')+(intal2[j]-'0')+carry;
@@ -50,6 +53,7 @@ char* intal_add(const char* intal1, const char* intal2)
         ++len;
     }
 
+    // Sum the remaining digits in the longer intal
     while(i>=0)
     {
         int sum = ((intal1[i]-'0')+carry); 
@@ -74,6 +78,7 @@ char* intal_add(const char* intal1, const char* intal2)
         ++len;
     }
 
+    // Final answer is in reverse (since we had calculated the least significant digit first)
     strrev(intal_r,len);
     intal_r[len]='\0';
 
@@ -83,10 +88,11 @@ char* intal_add(const char* intal1, const char* intal2)
 
 int intal_compare(const char* intal1, const char* intal2)
 {
+    //lengths of the intals
     int n1 = strlen(intal1);
     int n2 = strlen(intal2);
 
-    //based on just the length
+    //comapring based on just the length
     if(n1>n2)
     {
         return 1;
@@ -96,7 +102,7 @@ int intal_compare(const char* intal1, const char* intal2)
         return -1;
     }
 
-    //n1 basically same as n2
+    //if lengths are same, compare the characters
     for(int i=0;i<n1;++i)
     {
         if(intal1[i]>intal2[i])
@@ -110,6 +116,7 @@ int intal_compare(const char* intal1, const char* intal2)
     }
     return 0;
 }
+
 
 
 char* intal_diff(const char* intal1, const char* intal2)
@@ -232,7 +239,6 @@ char* intal_multiply(const char* intal1, const char* intal2)
 
         for(int i=len1-1;i>=0;--i)
         {
-            //going through each digit of intal2 from right to left
             int carry = 0;
             int n1 = intal1[i]-'0';
 
@@ -240,7 +246,6 @@ char* intal_multiply(const char* intal1, const char* intal2)
 
             for(int j=len2-1;j>=0;--j)
             {
-                //go left to right in intal1
                 int n2 = intal2[j]-'0';
                 int sum = n1*n2 + result[ind1+ind2] + carry;
 
@@ -267,7 +272,7 @@ char* intal_multiply(const char* intal1, const char* intal2)
             ++ind1; 
         }
 
-
+        //remove possible leading zeros
         while(r_lpos>=0)
         {
             if(result[r_lpos]!='0')
@@ -287,6 +292,7 @@ char* intal_multiply(const char* intal1, const char* intal2)
         return intal_r;
         
 }
+
 
 char* intal_mod(const char* intal1, const char* intal2)
 {
@@ -488,6 +494,7 @@ int intal_max(char **arr, int n)
     free(max_ele);
     return pos;
 }
+
 
 int intal_min(char **arr, int n)
 {
