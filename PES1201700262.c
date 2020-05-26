@@ -296,40 +296,56 @@ char* intal_multiply(const char* intal1, const char* intal2)
 
 char* intal_mod(const char* intal1, const char* intal2)
 {
-    char* ans = malloc(sizeof(char)*MAX_LEN);
-    char* prev = malloc(sizeof(char)*MAX_LEN);
-    char* f = malloc(sizeof(char)*MAX_LEN);
+    char* intal_t = malloc(sizeof(char)*MAX_LEN);
 
-    strcpy(ans,intal1);
+   int n1 = strlen(intal1);
+   int n2 = strlen(intal2);
 
-    while(intal_compare(ans,intal2)>0)
+   if(intal_compare(intal1,intal2)<0)
+   {
+       strcpy(intal_t,intal1);
+       return intal_t;
+   }
+    
+    strncpy(intal_t,intal1,n2);
+    intal_t[n2] = '\0';
+    int pos = n2;
+
+    if(!(intal_compare(intal_t,intal2)>0))
     {
-        strcpy(prev,"1");
-        strcpy(f,intal2);
+        intal_t[pos]=intal1[pos];
+        ++pos;
+        intal_t[pos]='\0';
+    }
 
-        char* temp;
-        while(intal_compare(ans,f)>0)
+    while(intal_compare(intal_t,intal2)>=0)
+    {
+        while(intal_compare(intal_t,intal2)>=0)
         {
-            strcpy(prev,f);
-            temp = intal_multiply(f,"2");
-            strcpy(f,temp);
-            free(temp);
+            char* res = intal_diff(intal_t,intal2);
+            strcpy(intal_t,res);
+            free(res);
+        }
+        if(strlen(intal_t)==1 && intal_t[0]=='0')
+        {
+            intal_t[0]='\0';
+        }
+        while(pos<n1 && intal_compare(intal_t,intal2)<0)
+        {
+            int t_len = strlen(intal_t);
+            intal_t[t_len]=intal1[pos];
+            intal_t[t_len+1]='\0';
+            ++pos;
         }
 
-        temp = intal_diff(ans,prev);
-        strcpy(ans,temp);
-        free(temp);
     }
-    
-    if(intal_compare(ans,intal2)==0)
+
+    if(intal_compare(intal_t,intal2)==0||strlen(intal_t)==0)
     {
-        strcpy(ans,"0");
+        strcpy(intal_t,"0");
     }
 
-    free(prev);
-    free(f);
-
-    return ans;
+    return intal_t;
 }
 
 char* intal_pow(const char* intal1, unsigned int n)

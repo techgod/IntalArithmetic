@@ -49,10 +49,7 @@ and store this in a results array. The same results array is updated for each su
 The answer is once again in reverse in the array, and so we remove any trailing zeros (which would have become leading zeros after reversing)
 
 char* intal_mod(const char* intal1, const char* intal2)
-- To find the mod, the approach that is being followed is using a sort of modified binary search. For intal1 mod intal2, we find a multiple of intal2 such that 
-intal2 is just smaller than intal1. We get the difference between the values, and we then repeat this process by again finding a new multiple of intal 2,
-until we get a difference of the multiple and intal lesser than intal2.
-The resulting value is the mod. 
+- We use the grade school long division algorithm to compute the remainder. This can be done efficiently in log(intal1) time.
 
 char* intal_pow(const char* intal1, unsigned int n)
 - We can follow a divide and conqueur approach and divide the problem at each step to get a O(log(n)) solution. 
